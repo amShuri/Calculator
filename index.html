@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <title>Calculator</title>
+</head>
+<body>
+    <div class="calculator">
+      <div class="calculator__operation-display">
+        <p class="calculator__operation-result">Results go here</p>
+        <input type="text" class="calculator__operation-input" placeholder="1234567890">
+      </div>
+      <div class="calculator__button-container">
+        <button type="button" class="clear-btn delete-btn" value="Del">
+          <span class="material-symbols-outlined">keyboard_backspace</span>
+        </button>
+        <button type="button" class="clear-btn" value="CE">CE</button>
+        <button type="button" class="clear-btn" value="C">C</button>
+        <button type="button" class="operator-btn" value="/">&#247;</button>
+
+        <button type="button" class="number-btn" value="7">7</button>
+        <button type="button" class="number-btn" value="8">8</button>
+        <button type="button" class="number-btn" value="9">9</button>
+        <button type="button" class="operator-btn" value="*">&#215;</button>
+
+        <button type="button" class="number-btn" value="4">4</button>
+        <button type="button" class="number-btn" value="5">5</button>
+        <button type="button" class="number-btn" value="6">6</button>
+        <button type="button" class="operator-btn" value="-">-</button>
+
+        <button type="button" class="number-btn" value="1">1</button>
+        <button type="button" class="number-btn" value="2">2</button>
+        <button type="button" class="number-btn" value="3">3</button>
+        <button type="button" class="operator-btn" value="+">+</button>
+
+        <button type="button" class="plusmn-btn" value="plusmn">&#177;</button>
+        <button type="button" class="number-btn" value="0">0</button>
+        <button type="button" class="number-btn decimal-btn" value=".">.</button>
+        <button type="button" class="equals-btn" value="=">=</button>
+      </div>
+    </div>
+  <script src="main.js"></script>
+</body>
+</html>
