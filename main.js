@@ -11,7 +11,7 @@ const plusmnBtn = document.querySelector('.plusmn-btn');
 
 const input = document.querySelector('.calculator__operation-input');
 const result = document.querySelector('.calculator__operation-result')
-const calcPattern = /\d+/;
+const calcPattern = /^-?\d+\.?\b[0-9]*/;
 const operatorPattern = /[\+\-\/\*]/;
 
 numberBtn.forEach(function(button) {
