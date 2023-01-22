@@ -17,6 +17,9 @@ const operatorPattern = /[\+\-\/\*]$/;
 numberBtn.forEach(function(button) {
     button.addEventListener('click', () => {
         input.value += button.value;
+        if(input.value.startsWith('.')) {
+            input.value = input.value.slice(0,-1) + '0.'
+        }
     });
 });
 
