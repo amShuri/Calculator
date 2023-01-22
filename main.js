@@ -1,3 +1,19 @@
+const numberBtn = document.querySelectorAll('.number-btn');
+const operatorBtn = document.querySelectorAll('.operator-btn');
+const input = document.querySelector('.calculator__operation-input');
+
+numberBtn.forEach(function(button) {
+    button.addEventListener('click', () => {
+        input.value += button.value;
+    });
+});
+
+operatorBtn.forEach(function(button) {
+    button.addEventListener('click', () => {
+        input.value += button.value;
+    });
+});
+
 function add(...arg) {
     return arg.reduce((total, curr) => total + curr);
 }
