@@ -1,9 +1,12 @@
 let calcValues = [];
 let calcOperator = '';
 let calcResult = '';
+let isBtnEquals;
 
 const numberBtn = document.querySelectorAll('.number-btn');
 const operatorBtn = document.querySelectorAll('.operator-btn');
+const equalsBtn = document.querySelector('.equals-btn');
+
 const input = document.querySelector('.calculator__operation-input');
 const result = document.querySelector('.calculator__operation-result')
 const calcPattern = /\d+/;
@@ -28,6 +31,13 @@ operatorBtn.forEach(function(button) {
     });
 });
 
+equalsBtn.addEventListener('click', () => {
+    isBtnEquals = true;
+    if(calcOperator !== '') {
+        getResults(calcOperator);
+    }
+});
+
 function getResults() {
     if(calcValues.length < 2 && input.value.match(calcPattern)) {
         calcValues.push(+input.value.match(calcPattern));
@@ -37,10 +47,17 @@ function getResults() {
 
     if(calcValues.length === 2) {
         operate(calcOperator);
-        result.textContent = `${calcResult} ${calcOperator}`;
-        calcValues.splice(0,2,calcResult);
-        input.value = '';
+        if(isBtnEquals) {
+            result.textContent = `${calcValues[0]} ${calcOperator} ${calcValues[1]} =`;
+            input.value = calcResult;
+            calcValues.splice(0);
+        } else {
+            result.textContent = `${calcResult} ${calcOperator}`;
+            calcValues.splice(0,2,calcResult);
+            input.value = '';
+        }
         calcOperator = '';
+        isBtnEquals = false;
     }
 }
 
