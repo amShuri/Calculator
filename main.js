@@ -7,6 +7,7 @@ const numberBtn = document.querySelectorAll('.number-btn');
 const operatorBtn = document.querySelectorAll('.operator-btn');
 const equalsBtn = document.querySelector('.equals-btn');
 const clearBtn = document.querySelectorAll('.clear-btn');
+const plusmnBtn = document.querySelector('.plusmn-btn');
 
 const input = document.querySelector('.calculator__operation-input');
 const result = document.querySelector('.calculator__operation-result')
@@ -80,6 +81,14 @@ clearBtn.forEach(function(button) {
                 break;
         }
     });
+});
+
+plusmnBtn.addEventListener('click', () => {
+    if(input.value.includes('-')) {
+        input.value = input.value.slice(1)
+    } else {
+        input.value = '-' + input.value;
+    }
 });
 
 function add(...arg) {
