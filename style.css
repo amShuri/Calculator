@@ -1,0 +1,77 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    box-sizing: inherit;
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    font-size: 2rem;
+    height: 55px;
+}
+
+button,
+.calculator__operation-result,
+.calculator__operation-input {
+    color: rgb(255, 255, 255);
+}
+
+.calculator {
+    background-color: rgb(33, 33, 33);
+    border-radius: 1.5rem;
+    width: 330px;
+}
+
+.calculator__button-container {
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(4, 70px);
+    padding: 1.5rem;
+    place-content: center;
+}
+
+.calculator__operation-result {
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    margin: 0;
+    min-height: 50px;
+}
+
+.calculator__operation-display {
+    margin: 0 auto;
+    width: calc(70px * 4 + 5px * 3);
+}
+
+.calculator__operation-input {
+    background-color: rgb(41, 41, 41);
+    border: 1px solid rgb(173, 173, 173);
+    border-radius: 0.5rem;
+    font-size: 2rem;
+    min-height: 45px;
+    padding: 1rem 1.5rem;
+}
+
+.number-btn {
+    background-color: rgb(120, 120, 120);
+}
+.operator-btn,
+.plusmn-btn,
+.clear-btn,
+.decimal-btn {
+    background-color: rgb(80, 80, 80);
+}
+.delete-btn {
+    align-items: center;
+    background-color: rgba(255, 65, 65, 0.800);
+    display: flex;
+    justify-content: center;
+}
+.equals-btn {
+    background-color: rgb(45, 125, 175);
+}
