@@ -6,6 +6,7 @@ let isBtnEquals;
 const numberBtn = document.querySelectorAll('.number-btn');
 const operatorBtn = document.querySelectorAll('.operator-btn');
 const equalsBtn = document.querySelector('.equals-btn');
+const clearBtn = document.querySelectorAll('.clear-btn');
 
 const input = document.querySelector('.calculator__operation-input');
 const result = document.querySelector('.calculator__operation-result')
@@ -60,6 +61,26 @@ function getResults() {
         isBtnEquals = false;
     }
 }
+
+clearBtn.forEach(function(button) {
+    button.addEventListener('click', () => {
+        switch(button.value) {
+            case 'C':
+                input.value = '';
+                result.textContent = '';
+                calcValues.splice(0);
+                calcOperator = '';
+                calcResult = '';
+                break;
+            case 'CE':
+                input.value = '';
+                break;
+            case 'DEL':
+                input.value = input.value.slice(0,-1);
+                break;
+        }
+    });
+});
 
 function add(...arg) {
     return arg.reduce((total, curr) => total + curr);
