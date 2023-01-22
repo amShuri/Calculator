@@ -15,6 +15,17 @@ button {
     height: 55px;
 }
 
+button:hover {
+    filter:brightness(120%);
+}
+
+button:active,
+button:focus-visible {
+    border: 1px solid rgb(225, 225, 225);
+    filter: brightness(80%);
+    outline: none;
+}
+
 button,
 .calculator__operation-result,
 .calculator__operation-input {
