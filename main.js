@@ -18,7 +18,7 @@ numberBtn.forEach(function(button) {
     button.addEventListener('click', () => {
         input.value += button.value;
         if(input.value.startsWith('.')) {
-            input.value = input.value.slice(0,-1) + '0.'
+            input.value = input.value.slice(0,-1) + '0.';
         }
     });
 });
@@ -52,7 +52,7 @@ input.addEventListener('keypress', (e) => {
         }
     }
     if(input.value.startsWith('.')) {
-        input.value = input.value.slice(0,-1) + '0.'
+        input.value = input.value.slice(0,-1) + '0.';
     }
 });
 
@@ -62,7 +62,7 @@ function getResults(argbtn) {
     }
     if(calcValues.length < 2 && input.value.match(calcPattern)) {
         if(input.value.includes('-') || input.value.includes('.')) {
-            input.value = input.value.slice(0,17)
+            input.value = input.value.slice(0,17);
         } else {
             input.value = input.value.slice(0,16);
         }
@@ -109,26 +109,26 @@ clearBtn.forEach(function(button) {
 
 plusmnBtn.addEventListener('click', () => {
     if(input.value.includes('-')) {
-        input.value = input.value.slice(1)
+        input.value = input.value.slice(1);
     } else {
         input.value = '-' + input.value;
     }
 });
 
 function add(...arg) {
-    return arg.reduce((total, curr) => total + curr);
+    return arg.reduce((total, curr) => +(total + curr).toFixed(2));
 }
 
 function subtract(...arg) {
-    return arg.reduce((total, curr) => total - curr);
+    return arg.reduce((total, curr) => +(total - curr).toFixed(2));
 }
 
 function multiply(...arg) {
-    return arg.reduce((total, curr) => total * curr);
+    return arg.reduce((total, curr) => +(total * curr).toFixed(2));
 }
 
 function divide(...arg) {
-    return arg.reduce((total, curr) => total / curr);
+    return arg.reduce((total, curr) => +(total / curr).toFixed(2));
 }
 
 function operate(operator) {
