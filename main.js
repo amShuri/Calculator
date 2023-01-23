@@ -8,6 +8,8 @@ const operatorBtn = document.querySelectorAll('.operator-btn');
 const equalsBtn = document.querySelector('.equals-btn');
 const clearBtn = document.querySelectorAll('.clear-btn');
 const plusmnBtn = document.querySelector('.plusmn-btn');
+const multiplyBtn = document.querySelector('#multiply-btn');
+const divideBtn = document.querySelector('#divide-btn');
 const allBtns = document.querySelectorAll('button');
 const input = document.querySelector('.calculator__operation-input');
 const result = document.querySelector('.calculator__operation-result')
@@ -28,10 +30,11 @@ numberBtn.forEach(function(button) {
 operatorBtn.forEach(function(button) {
     button.addEventListener('click', () => {
         getResults(button.value);
-        if(result.textContent.match(operatorPattern)) {
+        if(!result.textContent.match(/[0-9]$/)) {
             result.textContent = result.textContent.slice(0,-1) + button.value;
             calcOperator = button.value;
         }
+        replaceOperators();
     });
 });
 
@@ -40,6 +43,7 @@ equalsBtn.addEventListener('click', () => {
     if(calcOperator !== '') {
         getResults(calcOperator);
     }
+    replaceOperators();
 });
 
 input.addEventListener('keypress', (e) => {
@@ -47,7 +51,7 @@ input.addEventListener('keypress', (e) => {
         equalsBtn.click();
     } else if(e.key.match(operatorPattern)) {
         getResults(e.key);
-        if(result.textContent.match(operatorPattern)) {
+        if(!result.textContent.match(/[0-9]$/)) {
             result.textContent = result.textContent.slice(0,-1) + e.key;
             calcOperator = e.key;
             e.preventDefault();
@@ -56,6 +60,7 @@ input.addEventListener('keypress', (e) => {
     if(input.value.startsWith('.')) {
         input.value = '0.';
     }
+    replaceOperators();
 });
 
 function getResults(argbtn) {
@@ -124,6 +129,14 @@ allBtns.forEach(function(button) {
         input.focus();
     })
 })
+
+function replaceOperators() {
+    if(result.textContent.includes('*')) {
+        result.textContent = result.textContent.replace('*', multiplyBtn.textContent);
+    } else if(result.textContent.includes('/')) {
+        result.textContent = result.textContent.replace('/', divideBtn.textContent);
+    }
+}
 
 function add(...arg) {
     return arg.reduce((total, curr) => +(total + curr).toFixed(2));
