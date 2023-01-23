@@ -25,10 +25,7 @@ numberBtn.forEach(function(button) {
 
 operatorBtn.forEach(function(button) {
     button.addEventListener('click', () => {
-        if(calcOperator === '') {
-            calcOperator = button.value;
-        }
-        getResults();
+        getResults(button.value);
         if(result.textContent.match(operatorPattern)) {
             result.textContent = result.textContent.slice(0,-1) + button.value;
             calcOperator = button.value;
@@ -43,7 +40,26 @@ equalsBtn.addEventListener('click', () => {
     }
 });
 
-function getResults() {
+input.addEventListener('keypress', (e) => {
+    if(e.key === 'Enter') {
+        equalsBtn.click();
+    } else if(e.key.match(operatorPattern)) {
+        getResults(e.key);
+        if(result.textContent.match(operatorPattern)) {
+            result.textContent = result.textContent.slice(0,-1) + e.key;
+            calcOperator = e.key;
+            e.preventDefault();
+        }
+    }
+    if(input.value.startsWith('.')) {
+        input.value = input.value.slice(0,-1) + '0.'
+    }
+});
+
+function getResults(argbtn) {
+    if(calcOperator === '') {
+        calcOperator = argbtn;
+    }
     if(calcValues.length < 2 && input.value.match(calcPattern)) {
         if(input.value.includes('-') || input.value.includes('.')) {
             input.value = input.value.slice(0,17)
