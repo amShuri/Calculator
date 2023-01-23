@@ -8,11 +8,13 @@ const operatorBtn = document.querySelectorAll('.operator-btn');
 const equalsBtn = document.querySelector('.equals-btn');
 const clearBtn = document.querySelectorAll('.clear-btn');
 const plusmnBtn = document.querySelector('.plusmn-btn');
-
+const allBtns = document.querySelectorAll('button');
 const input = document.querySelector('.calculator__operation-input');
 const result = document.querySelector('.calculator__operation-result')
 const calcPattern = /^-?\d+\.?\b[0-9]*/;
 const operatorPattern = /[\+\-\/\*]$/;
+
+input.focus();
 
 numberBtn.forEach(function(button) {
     button.addEventListener('click', () => {
@@ -71,7 +73,9 @@ function getResults(argbtn) {
         input.value = '';
     }
 
-    if(calcValues.length === 2) {
+    if(calcOperator === '/' && calcValues[1] === 0) {
+        result.textContent = '$·&"$YMNL%YN·/%/·"';
+    } else if(calcValues.length === 2) {
         operate(calcOperator);
         if(isBtnEquals) {
             result.textContent = `${calcValues[0]} ${calcOperator} ${calcValues[1]} =`;
@@ -114,6 +118,12 @@ plusmnBtn.addEventListener('click', () => {
         input.value = '-' + input.value;
     }
 });
+
+allBtns.forEach(function(button) {
+    button.addEventListener('click', () => {
+        input.focus();
+    })
+})
 
 function add(...arg) {
     return arg.reduce((total, curr) => +(total + curr).toFixed(2));
