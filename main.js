@@ -1,7 +1,7 @@
 let calcValues = [];
 let calcOperator = '';
 let calcResult = '';
-let isBtnEquals;
+let isBtnEquals = false;
 
 const numberBtn = document.querySelectorAll('.number-btn');
 const operatorBtn = document.querySelectorAll('.operator-btn');
@@ -77,7 +77,7 @@ function getResults(argbtn) {
         result.textContent = '$·&"$YMNL%YN·/%/·"';
     } else if(calcValues.length === 2) {
         operate(calcOperator);
-        if(isBtnEquals) {
+        if(isBtnEquals === true) {
             result.textContent = `${calcValues[0]} ${calcOperator} ${calcValues[1]} =`;
             input.value = calcResult;
             calcValues.splice(0);
