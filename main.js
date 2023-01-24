@@ -13,7 +13,7 @@ const divideBtn = document.querySelector('#divide-btn');
 const allBtns = document.querySelectorAll('button');
 const input = document.querySelector('.calculator__operation-input');
 const result = document.querySelector('.calculator__operation-result')
-const calcPattern = /^-?\d+\.?\b[0-9]*/;
+const calcPattern = /-?\d*\.?\d+/;
 const operatorPattern = /[\+\-\/\*]$/;
 
 input.focus();
