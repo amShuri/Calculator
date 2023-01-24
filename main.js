@@ -43,16 +43,19 @@ equalsBtn.addEventListener('click', () => {
 });
 
 input.addEventListener('keypress', (e) => {
-    if(e.key === 'Enter') {
-        equalsBtn.click();
-    } else if(e.key.match(operatorPattern)) {
+    if(e.key.match(operatorPattern)) {
         getResults();
         if(!result.textContent.match(/[0-9]$/)) {
             result.textContent = `${result.textContent.slice(0, -1)} ${e.key}`;
             calcOperator = e.key;
             e.preventDefault();
         }
+    }  else if(e.key === 'Enter') {
+        equalsBtn.click();
+    } else if(!e.key.match(calcPattern) && e.key !== '.') {
+        e.preventDefault();
     }
+
     if(e.key === '.' && input.value === '') {
         input.value = '0';
     }
@@ -84,7 +87,6 @@ function getResults() {
             calcValues.splice(0,2,calcResult);
             input.value = '';
         }
-        calcOperator = '';
         isBtnEquals = false;
     }
     replaceOperators();
