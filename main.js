@@ -29,30 +29,26 @@ numberBtn.forEach(function(button) {
 
 operatorBtn.forEach(function(button) {
     button.addEventListener('click', () => {
-        getResults(button.value);
+        getResults();
         if(!result.textContent.match(/[0-9]$/)) {
-            result.textContent = result.textContent.slice(0,-1) + button.value;
+            result.textContent = `${result.textContent.slice(0, -1)} ${button.textContent}`;
             calcOperator = button.value;
         }
-        replaceOperators();
     });
 });
 
 equalsBtn.addEventListener('click', () => {
     isBtnEquals = true;
-    if(calcOperator !== '') {
-        getResults(calcOperator);
-    }
-    replaceOperators();
+    getResults();
 });
 
 input.addEventListener('keypress', (e) => {
     if(e.key === 'Enter') {
         equalsBtn.click();
     } else if(e.key.match(operatorPattern)) {
-        getResults(e.key);
+        getResults();
         if(!result.textContent.match(/[0-9]$/)) {
-            result.textContent = result.textContent.slice(0,-1) + e.key;
+            result.textContent = `${result.textContent.slice(0, -1)} ${e.key}`;
             calcOperator = e.key;
             e.preventDefault();
         }
@@ -63,10 +59,7 @@ input.addEventListener('keypress', (e) => {
     replaceOperators();
 });
 
-function getResults(argbtn) {
-    if(calcOperator === '') {
-        calcOperator = argbtn;
-    }
+function getResults() {
     if(calcValues.length < 2 && input.value.match(calcPattern)) {
         if(input.value.includes('-') || input.value.includes('.')) {
             input.value = input.value.slice(0,17);
@@ -94,6 +87,7 @@ function getResults(argbtn) {
         calcOperator = '';
         isBtnEquals = false;
     }
+    replaceOperators();
 }
 
 clearBtn.forEach(function(button) {
@@ -157,15 +151,19 @@ function divide(...arg) {
 function operate(operator) {
     switch(operator) {
         case '+':
+            calcOperator = '+';
             calcResult = add(...calcValues);
             break;
         case '-':
+            calcOperator = '-';
             calcResult = subtract(...calcValues);
             break;
         case '*':
+            calcOperator = '*';
             calcResult = multiply(...calcValues);
             break;
         case '/':
+            calcOperator = '/';
             calcResult = divide(...calcValues);
             break;
     }
