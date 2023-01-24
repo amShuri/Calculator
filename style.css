@@ -4,8 +4,14 @@
 
 html {
     box-sizing: inherit;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Arial', sans-serif;
     font-size: 10px;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    background-color: rgba(186, 210, 218, 0.6);
 }
 
 button {
@@ -17,7 +23,7 @@ button {
 }
 
 button:hover {
-    filter:brightness(120%);
+    filter:brightness(140%);
 }
 button:active {
     border: 1px solid rgb(225, 225, 225);
@@ -47,7 +53,6 @@ button,
     gap: 5px;
     grid-template-columns: repeat(4, 70px);
     padding: 1.5rem;
-    place-content: center;
 }
 
 .calculator__operation-display {
