@@ -21,7 +21,7 @@ input.focus();
 numberBtn.forEach(function(button) {
     button.addEventListener('click', () => {
         input.value += button.value;
-        if(input.value.startsWith('.')) {
+        if(button.value === '.' && input.value.length < 2) {
             input.value = '0.';
         }
     });
@@ -53,8 +53,8 @@ input.addEventListener('keypress', (e) => {
             e.preventDefault();
         }
     }
-    if(input.value.startsWith('.')) {
-        input.value = '0.';
+    if(e.key === '.' && input.value === '') {
+        input.value = '0';
     }
     replaceOperators();
 });
