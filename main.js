@@ -66,13 +66,20 @@ function replaceOperators() {
     }
 }
 
+function switchOperators(operatorSwitch) {
+    if(!result.textContent.match(/\d+$/) && result.textContent !== '') {
+        result.textContent = `${result.textContent.slice(0, -1)} ${operatorSwitch}`;
+    } else if(result.textContent === '') {
+        result.textContent = `0 ${operatorSwitch}`;
+        calcValues.push(0);
+    }
+    calcOperator = operatorSwitch;
+}
+
 operatorBtn.forEach(function(button) {
     button.addEventListener('click', () => {
         getResults();
-        if(!result.textContent.match(/[0-9]$/)) {
-            result.textContent = `${result.textContent.slice(0, -1)} ${button.textContent}`;
-            calcOperator = button.value;
-        }
+        switchOperators(button.value);
     });
 });
 
@@ -84,11 +91,8 @@ equalsBtn.addEventListener('click', () => {
 input.addEventListener('keypress', (e) => {
     if(e.key.match(operatorPattern)) {
         getResults();
-        if(!result.textContent.match(/[0-9]$/)) {
-            result.textContent = `${result.textContent.slice(0, -1)} ${e.key}`;
-            calcOperator = e.key;
-            e.preventDefault();
-        }
+        switchOperators(e.key);
+        e.preventDefault();
     } else if(e.key === 'Enter') {
         equalsBtn.click();
     } else if(!e.key.match(calcPattern) && e.key !== '.') {
