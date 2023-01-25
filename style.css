@@ -19,11 +19,12 @@ button {
     cursor: pointer;
     font-size: 2rem;
     height: 55px;
-    border: 1px solid rgba(138, 138, 138, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
 }
 
 button:hover {
-    filter:brightness(140%);
+    filter:brightness(110%);
 }
 button:active {
     border: 1px solid rgb(225, 225, 225);
@@ -42,8 +43,8 @@ button,
 }
 
 .calculator {
-    background-color: hsla(211, 52%, 13%, 0.98);
-    border: 3px solid rgb(82, 107, 136);
+    background-color: rgb(36, 37, 38);
+    border: 3px solid rgb(100, 120, 135);
     border-radius: 1rem;
     width: 330px;
 }
@@ -61,8 +62,9 @@ button,
 }
 
 .calculator__operation-input {
-    background-color: hsl(208, 49%, 18%);
+    background-color: rgb(58, 59, 60);
     border: 1px solid rgb(155, 155, 155);
+    border-radius: 3px;
     font-size: 2.3rem;
     min-height: 45px;
     padding: 1rem 1.5rem;
@@ -71,37 +73,38 @@ button,
 }
 .calculator__operation-input:focus {
     outline: none;
-    filter:brightness(120%);
+    border: 1px solid rgb(255,255,255, 0.650);
 }
 
 .calculator__operation-result {
-    display: flex;
     align-items: flex-end;
+    display: flex;
     justify-content: flex-end;
-    text-align: right;
-    font-size: 2rem;
-    margin: 0;
-    min-height: 65px;
     border-bottom: 1px solid rgb(155, 155, 155);
+    font-size: 2rem;
+    margin: 0 0 1.8rem;
+    min-height: 65px;
     padding: .8rem;
-    margin-bottom: 1.8rem;
+    text-align: right;
 }
 
 .number-btn {
-    background-color: rgb(82, 107, 136);
+    background-color: rgb(23, 151, 207);
 }
 .operator-btn,
 .plusmn-btn,
 .clear-btn,
 .decimal-btn {
-    background-color: rgb(29, 59, 85);
+    background-color: rgb(197, 57, 80);
 }
 .delete-btn {
     align-items: center;
-    background-color: rgba(235, 55, 55, 0.8);
     display: flex;
     justify-content: center;
 }
+
+.delete-btn,
 .equals-btn {
-    background-color: rgb(0, 98, 190);
+    background-color: rgb(58, 59, 60);
+    border: 1px solid rgba(255, 255, 255, 0.137);
 }
