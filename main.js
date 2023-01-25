@@ -29,11 +29,7 @@ numberBtn.forEach(function(button) {
 
 function getResults() {
     if(calcValues.length < 2 && input.value.match(calcPattern)) {
-        if(input.value.includes('-') || input.value.includes('.')) {
-            input.value = input.value.slice(0,17);
-        } else {
-            input.value = input.value.slice(0,16);
-        }
+        input.value.match(/[.-]/g) ? input.value = input.value.slice(0,17) : input.value = input.value.slice(0,16);
         calcValues.push(+input.value.match(calcPattern));
         result.textContent = `${input.value.match(calcPattern)} ${calcOperator}`;
         input.value = '';
