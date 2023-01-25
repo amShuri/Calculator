@@ -1,8 +1,3 @@
-let calcValues = [];
-let calcOperator = '';
-let calcResult = '';
-let isBtnEquals = false;
-
 const numberBtn = document.querySelectorAll('.number-btn');
 const operatorBtn = document.querySelectorAll('.operator-btn');
 const equalsBtn = document.querySelector('.equals-btn');
@@ -15,6 +10,10 @@ const input = document.querySelector('.calculator__operation-input');
 const result = document.querySelector('.calculator__operation-result');
 const calcPattern = /-?\d*\.?\d+/;
 const operatorPattern = /[\+\-\/\*]$/;
+let calcValues = [];
+let calcOperator = '';
+let calcResult = '';
+let isBtnEquals = false;
 
 input.focus();
 
@@ -87,6 +86,7 @@ operatorBtn.forEach(function(button) {
     button.addEventListener('click', () => {
         getResults();
         switchOperators(button.value);
+        updateOperatorsDisplay();
     });
 });
 
