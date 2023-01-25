@@ -29,6 +29,7 @@ numberBtn.forEach(function(button) {
 
 function getResults() {
     if(calcValues.length < 2 && input.value.match(calcPattern)) {
+        //slice the input from 0 to 16 digits before it's pushed into the array
         input.value.match(/[.-]/g) ? input.value = input.value.slice(0,17) : input.value = input.value.slice(0,16);
         calcValues.push(+input.value.match(calcPattern));
         result.textContent = `${input.value.match(calcPattern)} ${calcOperator}`;
@@ -44,10 +45,12 @@ function getResults() {
         calcValues.splice(0);
     } else if(calcValues.length === 2) {
         operate(calcOperator);
+        //if equals is pressed, the calculator is gonna show the entire operation
         if(isBtnEquals === true) {
             result.textContent = `${calcValues[0]} ${calcOperator} ${calcValues[1]} =`;
             input.value = calcResult;
             calcValues.splice(0);
+        //otherwise it's gonna show the result and the next operator
         } else {
             result.textContent = `${calcResult} ${calcOperator}`;
             calcValues.splice(0,2,calcResult);
@@ -55,10 +58,12 @@ function getResults() {
         }
         isBtnEquals = false;
     }
-    replaceOperators();
+    updateOperatorsDisplay();
 }
 
-function replaceOperators() {
+//this function doesn't change any functionality
+//it's just a display update from / and * to ÷ and ×
+function updateOperatorsDisplay() {
     if(result.textContent.includes('*')) {
         result.textContent = result.textContent.replace('*', multiplyBtn.textContent);
     } else if(result.textContent.includes('/')) {
@@ -66,6 +71,8 @@ function replaceOperators() {
     }
 }
 
+//this function on the other hand, updates the operator
+//that is used in each operation
 function switchOperators(operatorSwitch) {
     if(!result.textContent.match(/\d+$/) && result.textContent !== '') {
         result.textContent = `${result.textContent.slice(0, -1)} ${operatorSwitch}`;
@@ -102,7 +109,7 @@ input.addEventListener('keypress', (e) => {
     if(e.key === '.' && input.value === '') {
         input.value = '0';
     }
-    replaceOperators();
+    updateOperatorsDisplay();
 });
 
 clearBtn.forEach(function(button) {
