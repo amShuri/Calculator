@@ -27,41 +27,6 @@ numberBtn.forEach(function(button) {
     });
 });
 
-operatorBtn.forEach(function(button) {
-    button.addEventListener('click', () => {
-        getResults();
-        if(!result.textContent.match(/[0-9]$/)) {
-            result.textContent = `${result.textContent.slice(0, -1)} ${button.textContent}`;
-            calcOperator = button.value;
-        }
-    });
-});
-
-equalsBtn.addEventListener('click', () => {
-    isBtnEquals = true;
-    getResults();
-});
-
-input.addEventListener('keypress', (e) => {
-    if(e.key.match(operatorPattern)) {
-        getResults();
-        if(!result.textContent.match(/[0-9]$/)) {
-            result.textContent = `${result.textContent.slice(0, -1)} ${e.key}`;
-            calcOperator = e.key;
-            e.preventDefault();
-        }
-    }  else if(e.key === 'Enter') {
-        equalsBtn.click();
-    } else if(!e.key.match(calcPattern) && e.key !== '.') {
-        e.preventDefault();
-    }
-
-    if(e.key === '.' && input.value === '') {
-        input.value = '0';
-    }
-    replaceOperators();
-});
-
 function getResults() {
     if(calcValues.length < 2 && input.value.match(calcPattern)) {
         if(input.value.includes('-') || input.value.includes('.')) {
@@ -97,6 +62,49 @@ function getResults() {
     replaceOperators();
 }
 
+function replaceOperators() {
+    if(result.textContent.includes('*')) {
+        result.textContent = result.textContent.replace('*', multiplyBtn.textContent);
+    } else if(result.textContent.includes('/')) {
+        result.textContent = result.textContent.replace('/', divideBtn.textContent);
+    }
+}
+
+operatorBtn.forEach(function(button) {
+    button.addEventListener('click', () => {
+        getResults();
+        if(!result.textContent.match(/[0-9]$/)) {
+            result.textContent = `${result.textContent.slice(0, -1)} ${button.textContent}`;
+            calcOperator = button.value;
+        }
+    });
+});
+
+equalsBtn.addEventListener('click', () => {
+    isBtnEquals = true;
+    getResults();
+});
+
+input.addEventListener('keypress', (e) => {
+    if(e.key.match(operatorPattern)) {
+        getResults();
+        if(!result.textContent.match(/[0-9]$/)) {
+            result.textContent = `${result.textContent.slice(0, -1)} ${e.key}`;
+            calcOperator = e.key;
+            e.preventDefault();
+        }
+    }  else if(e.key === 'Enter') {
+        equalsBtn.click();
+    } else if(!e.key.match(calcPattern) && e.key !== '.') {
+        e.preventDefault();
+    }
+
+    if(e.key === '.' && input.value === '') {
+        input.value = '0';
+    }
+    replaceOperators();
+});
+
 clearBtn.forEach(function(button) {
     button.addEventListener('click', () => {
         switch(button.value) {
@@ -130,14 +138,6 @@ allBtns.forEach(function(button) {
         input.focus();
     })
 })
-
-function replaceOperators() {
-    if(result.textContent.includes('*')) {
-        result.textContent = result.textContent.replace('*', multiplyBtn.textContent);
-    } else if(result.textContent.includes('/')) {
-        result.textContent = result.textContent.replace('/', divideBtn.textContent);
-    }
-}
 
 function add(...arg) {
     return arg.reduce((total, curr) => +(total + curr).toFixed(2));
