@@ -75,7 +75,12 @@ function getResults() {
     }
 
     if(calcOperator === '/' && calcValues[1] === 0) {
-        result.textContent = '$·&"$YMNL%YN·/%/·"';
+        result.textContent = `Let's not do that!`;
+        setTimeout(() => {
+            result.textContent = '';
+        }, 1000);
+        calcOperator = '';
+        calcValues.splice(0);
     } else if(calcValues.length === 2) {
         operate(calcOperator);
         if(isBtnEquals === true) {
