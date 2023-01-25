@@ -11,7 +11,7 @@ html {
 body {
     display: flex;
     justify-content: center;
-    background-color: rgba(186, 210, 218, 0.6);
+    background-color: rgba(186, 210, 218, 0.3);
 }
 
 button {
@@ -43,7 +43,7 @@ button,
 
 .calculator {
     background-color: hsla(211, 52%, 13%, 0.98);
-    border: 3px solid rgb(87, 109, 134);
+    border: 3px solid rgb(82, 107, 136);
     border-radius: 1rem;
     width: 330px;
 }
