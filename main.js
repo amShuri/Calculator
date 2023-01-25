@@ -12,7 +12,7 @@ const multiplyBtn = document.querySelector('#multiply-btn');
 const divideBtn = document.querySelector('#divide-btn');
 const allBtns = document.querySelectorAll('button');
 const input = document.querySelector('.calculator__operation-input');
-const result = document.querySelector('.calculator__operation-result')
+const result = document.querySelector('.calculator__operation-result');
 const calcPattern = /-?\d*\.?\d+/;
 const operatorPattern = /[\+\-\/\*]$/;
 
@@ -89,7 +89,7 @@ input.addEventListener('keypress', (e) => {
             calcOperator = e.key;
             e.preventDefault();
         }
-    }  else if(e.key === 'Enter') {
+    } else if(e.key === 'Enter') {
         equalsBtn.click();
     } else if(!e.key.match(calcPattern) && e.key !== '.') {
         e.preventDefault();
