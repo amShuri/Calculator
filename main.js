@@ -105,6 +105,9 @@ operatorBtn.forEach(function(button) {
 
 equalsBtn.addEventListener('click', () => {
     isBtnEquals = true;
+    if(calcOperator === '') {
+        calcOperator = '+';
+    }
     getResults();
 });
 
