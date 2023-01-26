@@ -6,6 +6,7 @@ const plusmnBtn = document.querySelector('.plusmn-btn');
 const multiplyBtn = document.querySelector('#multiply-btn');
 const divideBtn = document.querySelector('#divide-btn');
 const allBtns = document.querySelectorAll('button');
+const decimalBtn = document.querySelector('.decimal-btn');
 const input = document.querySelector('.calculator__operation-input');
 const result = document.querySelector('.calculator__operation-result');
 const calcPattern = /-?\d*\.?\d+/;
@@ -20,9 +21,21 @@ input.focus();
 numberBtn.forEach(function(button) {
     button.addEventListener('click', () => {
         input.value += button.value;
-        if(button.value === '.' && input.value.length < 2) {
-            input.value = '0.';
-        }
+    });
+});
+
+decimalBtn.addEventListener('click', () => {
+    input.value += decimalBtn.value;
+    decimalBtn.disabled = true;
+    if(input.value.length < 2) {
+        input.value = '0.';
+    }
+    allBtns.forEach(function(button) {
+        button.addEventListener('click', () => {
+            if(!input.value.includes('.')) {
+                decimalBtn.disabled = false;
+            }
+        });
     });
 });
 
@@ -95,7 +108,10 @@ equalsBtn.addEventListener('click', () => {
     getResults();
 });
 
-input.addEventListener('keypress', (e) => {
+document.addEventListener('keypress', (e) => {
+    if(e.key.match(calcPattern)) {
+        input.focus();
+    }
     if(e.key.match(operatorPattern)) {
         getResults();
         switchOperators(e.key);
@@ -108,6 +124,8 @@ input.addEventListener('keypress', (e) => {
 
     if(e.key === '.' && input.value === '') {
         input.value = '0';
+    } else if(e.key === '.' && input.value.includes('.')) {
+        e.preventDefault();
     }
     updateOperatorsDisplay();
 });
@@ -139,12 +157,6 @@ plusmnBtn.addEventListener('click', () => {
         input.value = '-' + input.value;
     }
 });
-
-allBtns.forEach(function(button) {
-    button.addEventListener('click', () => {
-        input.focus();
-    })
-})
 
 function add(...arg) {
     return arg.reduce((total, curr) => +(total + curr).toFixed(2));
