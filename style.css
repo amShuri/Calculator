@@ -73,7 +73,6 @@ button,
 }
 .calculator__operation-input:focus {
     outline: none;
-    border: 1px solid rgb(255,255,255, 0.650);
 }
 
 .calculator__operation-result {
