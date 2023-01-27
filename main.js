@@ -14,86 +14,115 @@ const operatorPattern = /[\+\-\/\*]$/;
 let calcValues = [];
 let calcOperator = '';
 let calcResult = '';
-let isBtnEquals = false;
-
+let isItActive = true;
 input.focus();
+
+function getResults() {
+    if (calcValues.length < 2 && input.value.match(calcPattern)) {
+        // Slice the input from 0 to 16 digits
+        input.value.match(/[.-]/g) ? input.value = input.value.slice(0,17) : input.value = input.value.slice(0,16);
+        calcValues.push(+input.value.match(calcPattern));
+        result.textContent = `${input.value.match(calcPattern)} ${calcOperator}`;
+    }
+    
+    if (calcValues.length === 2 && calcOperator !== '') {
+        operate(calcOperator);
+        result.textContent = `${calcResult} ${calcOperator}`;
+        calcValues.splice(0,2,calcResult);
+        input.value = calcResult;
+    } /**
+       * Keep the array's length at 1 if no operator is defined
+       * (which happens when a value is pushed using the equals button)
+       */ 
+      else if (calcValues.length === 2 && calcOperator === '') {
+        calcValues.splice(0,1);
+    }
+    isItActive = true;
+}
+
+function getResultsEquals() {
+    if (calcValues.length < 1 && input.value !== '') {
+        result.textContent = input.value.match(calcPattern);
+        calcValues.push(+input.value.match(calcPattern));
+    } else if (calcValues.length >= 1 && input.value !== '' && calcOperator !== '') {
+        calcValues.push(+input.value.match(calcPattern));
+        operate(calcOperator);
+        result.textContent = `${calcValues[0]} ${calcOperator} ${calcValues[1]} =`;
+        input.value = calcResult;
+        calcValues.splice(0,2,calcResult);
+        calcOperator = '';
+    } 
+    /** 
+     * Allows the calculator to push one value 
+     * into the array by using the equals btn
+     */
+      else if (input.value !== '') {
+        result.textContent = input.value;
+        calcValues.splice(0,1,+input.value);
+    }
+    
+    /**
+     * The value sent to the result.textContent
+     * is shown on the input without the operator
+     * next to it
+     */
+    if (!result.textContent.includes('=') && calcValues.length < 2) {
+        input.value = result.textContent.match(calcPattern);
+    } else if (result.textContent.includes('=')) {
+        input.value = calcResult;
+    }
+    isItActive = true;
+}
+
+/**
+  * Doesn't have any impact on functionality, this
+  * is just a display update from / and * to ÷ and ×
+  */
+function updateOperatorsDisplay() {
+    if (result.textContent.includes('*')) {
+        result.textContent = result.textContent.replace('*', multiplyBtn.textContent);
+    } else if (result.textContent.includes('/')) {
+        result.textContent = result.textContent.replace('/', divideBtn.textContent);
+    }
+}
+
+// Updates the operator that is used in each operation
+function switchOperators(operatorSwitch) {
+    if (!result.textContent.match(/\d$|[=]$/) && result.textContent !== '') {
+        result.textContent = `${result.textContent.slice(0, -1)} ${operatorSwitch}`;
+    } else if (result.textContent.includes('=')) {
+        result.textContent = `${calcValues[0]} ${operatorSwitch}`;
+    } else if (result.textContent === '') {
+        result.textContent = `0 ${operatorSwitch}`;
+        calcValues.push(0);
+    }
+
+    /** 
+     * Makes it so an operator can be added when a
+     * value has been pushed using the equals button
+     */
+    if (result.textContent.match(/\d$/)) {
+        result.textContent += ` ${operatorSwitch}`
+        isItActive = false;
+    }
+    calcOperator = operatorSwitch;
+}
+
+// Overwrite any existing result in the input
+allBtns.forEach(function(button) {
+    button.addEventListener('click', () => {
+        if (result.textContent !== '' && isItActive === true) {
+            input.value = '';
+            isItActive = false;
+        }
+    });
+});
 
 numberBtn.forEach(function(button) {
     button.addEventListener('click', () => {
         input.value += button.value;
     });
 });
-
-decimalBtn.addEventListener('click', () => {
-    input.value += decimalBtn.value;
-    decimalBtn.disabled = true;
-    if(input.value.length < 2) {
-        input.value = '0.';
-    }
-    allBtns.forEach(function(button) {
-        button.addEventListener('click', () => {
-            if(!input.value.includes('.')) {
-                decimalBtn.disabled = false;
-            }
-        });
-    });
-});
-
-function getResults() {
-    if(calcValues.length < 2 && input.value.match(calcPattern)) {
-        //slice the input from 0 to 16 digits before it's pushed into the array
-        input.value.match(/[.-]/g) ? input.value = input.value.slice(0,17) : input.value = input.value.slice(0,16);
-        calcValues.push(+input.value.match(calcPattern));
-        result.textContent = `${input.value.match(calcPattern)} ${calcOperator}`;
-        input.value = '';
-    }
-
-    if(calcOperator === '/' && calcValues[1] === 0) {
-        result.textContent = `Let's not do that!`;
-        setTimeout(() => {
-            result.textContent = '';
-        }, 1000);
-        calcOperator = '';
-        calcValues.splice(0);
-    } else if(calcValues.length === 2) {
-        operate(calcOperator);
-        //if equals is pressed, the calculator is gonna show the entire operation
-        if(isBtnEquals === true) {
-            result.textContent = `${calcValues[0]} ${calcOperator} ${calcValues[1]} =`;
-            input.value = calcResult;
-            calcValues.splice(0);
-        //otherwise it's gonna show the result and the next operator
-        } else {
-            result.textContent = `${calcResult} ${calcOperator}`;
-            calcValues.splice(0,2,calcResult);
-            input.value = '';
-        }
-        isBtnEquals = false;
-    }
-    updateOperatorsDisplay();
-}
-
-//this function doesn't change any functionality
-//it's just a display update from / and * to ÷ and ×
-function updateOperatorsDisplay() {
-    if(result.textContent.includes('*')) {
-        result.textContent = result.textContent.replace('*', multiplyBtn.textContent);
-    } else if(result.textContent.includes('/')) {
-        result.textContent = result.textContent.replace('/', divideBtn.textContent);
-    }
-}
-
-//this function on the other hand, updates the operator
-//that is used in each operation
-function switchOperators(operatorSwitch) {
-    if(!result.textContent.match(/\d+$/) && result.textContent !== '') {
-        result.textContent = `${result.textContent.slice(0, -1)} ${operatorSwitch}`;
-    } else if(result.textContent === '') {
-        result.textContent = `0 ${operatorSwitch}`;
-        calcValues.push(0);
-    }
-    calcOperator = operatorSwitch;
-}
 
 operatorBtn.forEach(function(button) {
     button.addEventListener('click', () => {
@@ -104,31 +133,37 @@ operatorBtn.forEach(function(button) {
 });
 
 equalsBtn.addEventListener('click', () => {
-    isBtnEquals = true;
-    if(calcOperator === '') {
-        calcOperator = '+';
-    }
-    getResults();
+    getResultsEquals();
+    updateOperatorsDisplay();
 });
 
 document.addEventListener('keypress', (e) => {
-    if(e.key.match(calcPattern)) {
+    // Overwrite any existing result in the input
+    // only when isItActive is true
+    if (result.textContent !== '' && isItActive === true) {
+        input.value = '';
+        isItActive = false;
+    }
+
+    if (e.key.match(calcPattern)) {
         input.focus();
     }
-    if(e.key.match(operatorPattern)) {
+
+    if (e.key.match(operatorPattern)) {
         getResults();
         switchOperators(e.key);
         e.preventDefault();
-    } else if(e.key === 'Enter') {
-        equalsBtn.click();
-    } else if(!e.key.match(calcPattern) && e.key !== '.') {
-        e.preventDefault();
+    } else if (e.key === 'Enter') {
+        getResultsEquals();
     }
-
-    if(e.key === '.' && input.value === '') {
-        input.value = '0';
-    } else if(e.key === '.' && input.value.includes('.')) {
+    
+    // Only numbers, decimal point and operators work
+    if (e.key !== '.' && !e.key.match(calcPattern)) {
         e.preventDefault();
+    } else if (e.key === '.' && input.value.includes('.')) {
+        e.preventDefault();
+    } else if (e.key === '.' && input.value === '') {
+        input.value = '0';
     }
     updateOperatorsDisplay();
 });
@@ -154,11 +189,31 @@ clearBtn.forEach(function(button) {
 });
 
 plusmnBtn.addEventListener('click', () => {
-    if(input.value.includes('-')) {
+    if (input.value.includes('-')) {
         input.value = input.value.slice(1);
     } else {
         input.value = '-' + input.value;
     }
+});
+
+decimalBtn.addEventListener('click', () => {
+    input.value += decimalBtn.value;
+    decimalBtn.disabled = true;
+    if (input.value.length < 2) {
+        input.value = '0.';
+    }
+    /**
+     * re-enable the decimal point button when any
+     * other button is clicked, as long as the
+     * decimal point is not present in the input
+     */
+    allBtns.forEach(function(button) {
+        button.addEventListener('click', () => {
+            if (!input.value.includes('.')) {
+                decimalBtn.disabled = false;
+            }
+        });
+    });
 });
 
 function add(...arg) {
