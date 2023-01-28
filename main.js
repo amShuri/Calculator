@@ -243,7 +243,7 @@ function divide(...arg) {
 }
 
 function operate(operator) {
-    if(calcOperator === '/' && input.value.match(/^[0]+$/)) {
+    if(calcOperator === '/' && input.value.match(/^[0.]+$/)) {
         /**
          * The result.textContent is modified after the operate
          * function is called. The Timeout waits for that modification
