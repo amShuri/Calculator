@@ -17,7 +17,7 @@ let calcResult = '';
 let isItActive = true;
 input.focus();
 
-function getResults() {
+function calculateWithOperators() {
     if (calcValues.length < 2 && input.value.match(calcPattern)) {
         // Slice the input from 0 to 16 digits
         input.value.match(/[.-]/g) ? input.value = input.value.slice(0,17) : input.value = input.value.slice(0,16);
@@ -40,7 +40,7 @@ function getResults() {
     isItActive = true;
 }
 
-function getResultsEquals() {
+function calculateWithEquals() {
     if (calcValues.length < 1 && input.value !== '') {
         result.textContent = input.value.match(calcPattern);
         calcValues.push(+input.value.match(calcPattern));
@@ -126,14 +126,14 @@ numberBtn.forEach(function(button) {
 
 operatorBtn.forEach(function(button) {
     button.addEventListener('click', () => {
-        getResults();
+        calculateWithOperators();
         switchOperators(button.value);
         updateOperatorsDisplay();
     });
 });
 
 equalsBtn.addEventListener('click', () => {
-    getResultsEquals();
+    calculateWithEquals();
     updateOperatorsDisplay();
 });
 
@@ -150,11 +150,11 @@ document.addEventListener('keypress', (e) => {
     }
 
     if (e.key.match(operatorPattern)) {
-        getResults();
+        calculateWithOperators();
         switchOperators(e.key);
         e.preventDefault();
     } else if (e.key === 'Enter') {
-        getResultsEquals();
+        calculateWithEquals();
     }
     
     // Only numbers, decimal point and operators work
