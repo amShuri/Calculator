@@ -233,22 +233,35 @@ function divide(...arg) {
 }
 
 function operate(operator) {
-    switch(operator) {
-        case '+':
-            calcOperator = '+';
-            calcResult = add(...calcValues);
-            break;
-        case '-':
-            calcOperator = '-';
-            calcResult = subtract(...calcValues);
-            break;
-        case '*':
-            calcOperator = '*';
-            calcResult = multiply(...calcValues);
-            break;
-        case '/':
-            calcOperator = '/';
-            calcResult = divide(...calcValues);
-            break;
+    if(calcOperator === '/' && input.value.match(/^[0]+$/)) {
+        /**
+         * The result.textContent is modified after the
+         * operate function is called. The Timeout then
+         * waits for that modification to happen to
+         * update the textContent again
+         */
+        setTimeout(() => {
+            result.textContent = result.textContent.slice(0,-1) + '????';    
+            calcOperator = '';
+        }, 0);
+    } else {
+        switch(operator) {
+            case '+':
+                calcOperator = '+';
+                calcResult = add(...calcValues);
+                break;
+            case '-':
+                calcOperator = '-';
+                calcResult = subtract(...calcValues);
+                break;
+            case '*':
+                calcOperator = '*';
+                calcResult = multiply(...calcValues);
+                break;
+            case '/':
+                calcOperator = '/';
+                calcResult = divide(...calcValues);
+                break;
+        }
     }
 }
