@@ -19,7 +19,7 @@ input.focus();
 
 function calculateWithOperators() {
     if (calcValues.length < 2 && input.value.match(calcPattern)) {
-        // Slice the input from 0 to 16 digits
+        // Slice the input from 0 to 16 digits.
         input.value.match(/[.-]/g) ? input.value = input.value.slice(0,17) : input.value = input.value.slice(0,16);
         calcValues.push(+input.value.match(calcPattern));
         result.textContent = `${input.value.match(calcPattern)} ${calcOperator}`;
@@ -31,8 +31,8 @@ function calculateWithOperators() {
         calcValues.splice(0,2,calcResult);
         input.value = calcResult;
     } /**
-       * Keep the array's length at 1 if no operator is defined
-       * (which happens when a value is pushed using the equals button)
+       * Keep the array's length at 1 if no operator is defined,
+       * which happens when a value is pushed using the equals button.
        */ 
       else if (calcValues.length === 2 && calcOperator === '') {
         calcValues.splice(0,1);
@@ -53,8 +53,8 @@ function calculateWithEquals() {
         calcOperator = '';
     } 
     /** 
-     * Allows the calculator to push one value 
-     * into the array by using the equals btn
+     * Makes it possible to push one value into the array
+     * by using the equals button.
      */
       else if (input.value !== '') {
         result.textContent = input.value;
@@ -62,9 +62,9 @@ function calculateWithEquals() {
     }
     
     /**
-     * The value sent to the result.textContent
-     * is shown on the input without the operator
-     * next to it
+     * If any value is entered or re-entered by using the equals
+     * button and then an operator is added, that same value is
+     * shown in the input without the operator next to it.
      */
     if (!result.textContent.includes('=') && calcValues.length < 2) {
         input.value = result.textContent.match(calcPattern);
@@ -75,8 +75,8 @@ function calculateWithEquals() {
 }
 
 /**
-  * Doesn't have any impact on functionality, this
-  * is just a display update from / and * to ÷ and ×
+  * Doesn't have any impact on functionality, this is simply
+  * a display update of operators, from / and * to ÷ and ×.
   */
 function updateOperatorsDisplay() {
     if (result.textContent.includes('*')) {
@@ -86,7 +86,7 @@ function updateOperatorsDisplay() {
     }
 }
 
-// Updates the operator that is used in each operation
+// Updates the operator that is used in each operation.
 function switchOperators(operatorSwitch) {
     if (!result.textContent.match(/[0-9=?]$/g) && result.textContent !== '') {
         result.textContent = `${result.textContent.slice(0, -1)} ${operatorSwitch}`;
@@ -98,8 +98,8 @@ function switchOperators(operatorSwitch) {
     }
 
     /** 
-     * Makes it so an operator can be added when a
-     * value has been pushed using the equals button
+     * Makes it so an operator can be added when a value has
+     * already been pushed using the equals button.
      */
     if (result.textContent.match(/[0-9]$/)) {
         result.textContent += ` ${operatorSwitch}`
@@ -110,7 +110,7 @@ function switchOperators(operatorSwitch) {
     input.value = result.textContent.match(calcPattern);
 }
 
-// Overwrite any existing result in the input
+// Overwrite any existing value in the input.
 allBtns.forEach(function(button) {
     button.addEventListener('click', () => {
         if (result.textContent !== '' && isItActive === true) {
@@ -140,8 +140,10 @@ equalsBtn.addEventListener('click', () => {
 });
 
 document.addEventListener('keypress', (e) => {
-    // Overwrite any existing result in the input
-    // only when isItActive is true
+    /**
+     * Overwrite any existing value in the input,
+     * only when isItActive is true.
+     */ 
     if (result.textContent !== '' && isItActive === true) {
         input.value = '';
         isItActive = false;
@@ -159,7 +161,7 @@ document.addEventListener('keypress', (e) => {
         calculateWithEquals();
     }
     
-    // Only numbers, decimal point and operators work
+    // Only numbers, operators, and the decimal point will work.
     if (e.key !== '.' && !e.key.match(calcPattern)) {
         e.preventDefault();
     } else if (e.key === '.' && input.value.includes('.')) {
@@ -205,9 +207,8 @@ decimalBtn.addEventListener('click', () => {
         input.value = '0.';
     }
     /**
-     * re-enable the decimal point button when any
-     * other button is clicked, as long as the
-     * decimal point is not present in the input
+     * Re-enable the decimal point button when any other button is
+     * clicked, as long as the decimal point is not present in the input.
      */
     allBtns.forEach(function(button) {
         button.addEventListener('click', () => {
@@ -237,10 +238,9 @@ function divide(...arg) {
 function operate(operator) {
     if(calcOperator === '/' && input.value.match(/^[0]+$/)) {
         /**
-         * The result.textContent is modified after the
-         * operate function is called. The Timeout then
-         * waits for that modification to happen to
-         * update the textContent again
+         * The result.textContent is modified after the operate
+         * function is called. The Timeout waits for that modification
+         * to happen to be able to update the textContent.
          */
         setTimeout(() => {
             result.textContent = result.textContent.slice(0,-1) + '????';    
