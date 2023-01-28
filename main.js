@@ -88,7 +88,7 @@ function updateOperatorsDisplay() {
 
 // Updates the operator that is used in each operation
 function switchOperators(operatorSwitch) {
-    if (!result.textContent.match(/\d$|[=]$/) && result.textContent !== '') {
+    if (!result.textContent.match(/[0-9=?]$/g) && result.textContent !== '') {
         result.textContent = `${result.textContent.slice(0, -1)} ${operatorSwitch}`;
     } else if (result.textContent.includes('=')) {
         result.textContent = `${calcValues[0]} ${operatorSwitch}`;
@@ -101,11 +101,13 @@ function switchOperators(operatorSwitch) {
      * Makes it so an operator can be added when a
      * value has been pushed using the equals button
      */
-    if (result.textContent.match(/\d$/)) {
+    if (result.textContent.match(/[0-9]$/)) {
         result.textContent += ` ${operatorSwitch}`
         isItActive = false;
     }
     calcOperator = operatorSwitch;
+    isItActive = true;
+    input.value = result.textContent.match(calcPattern);
 }
 
 // Overwrite any existing result in the input
