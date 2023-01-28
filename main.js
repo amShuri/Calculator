@@ -71,6 +71,10 @@ function calculateWithEquals() {
     } else if (result.textContent.includes('=')) {
         input.value = calcResult;
     }
+    
+    if (calcValues.length > 0) {
+        input.classList.add('input-color');
+    }
     isItActive = true;
 }
 
@@ -107,6 +111,7 @@ function switchOperators(operatorSwitch) {
     }
     calcOperator = operatorSwitch;
     isItActive = true;
+    input.classList.add('input-color');
     input.value = result.textContent.match(calcPattern);
 }
 
@@ -114,6 +119,7 @@ function switchOperators(operatorSwitch) {
 allBtns.forEach(function(button) {
     button.addEventListener('click', () => {
         if (result.textContent !== '' && isItActive === true) {
+            input.classList.remove('input-color');
             input.value = '';
             isItActive = false;
         }
@@ -145,6 +151,7 @@ document.addEventListener('keypress', (e) => {
      * only when isItActive is true.
      */ 
     if (result.textContent !== '' && isItActive === true) {
+        input.classList.remove('input-color');
         input.value = '';
         isItActive = false;
     }
