@@ -107,3 +107,7 @@ button,
     background-color: rgb(58, 59, 60);
     border: 1px solid rgba(255, 255, 255, 0.137);
 }
+
+.input-color {
+    color: hsl(198, 100%, 65%);
+}
