@@ -41,10 +41,10 @@ function calculateWithOperators() {
 }
 
 function calculateWithEquals() {
-    if (calcValues.length < 1 && input.value !== '') {
+    if (calcValues.length < 1 && input.value.match(calcPattern)) {
         result.textContent = input.value.match(calcPattern);
         calcValues.push(+input.value.match(calcPattern));
-    } else if (calcValues.length >= 1 && input.value !== '' && calcOperator !== '') {
+    } else if (calcValues.length >= 1 && calcOperator !== '') {
         calcValues.push(+input.value.match(calcPattern));
         operate(calcOperator);
         result.textContent = `${calcValues[0]} ${calcOperator} ${calcValues[1]} =`;
@@ -66,7 +66,7 @@ function calculateWithEquals() {
      * button and then an operator is added, that same value is
      * shown in the input without the operator next to it.
      */
-    if (!result.textContent.includes('=') && calcValues.length < 2) {
+    if (!result.textContent.match(/[=?]/g) && calcValues.length < 2) {
         input.value = result.textContent.match(calcPattern);
     } else if (result.textContent.includes('=')) {
         input.value = calcResult;
@@ -115,6 +115,13 @@ function switchOperators(operatorSwitch) {
     input.value = result.textContent.match(calcPattern);
 }
 
+function doNotDivideBy0() {
+    result.textContent = '????';
+    input.value = '';
+    calcOperator = '';
+    calcValues.splice(0);
+}
+
 // Overwrite any existing value in the input.
 allBtns.forEach(function(button) {
     button.addEventListener('click', () => {
@@ -134,14 +141,24 @@ numberBtn.forEach(function(button) {
 
 operatorBtn.forEach(function(button) {
     button.addEventListener('click', () => {
-        calculateWithOperators();
+        if(calcOperator === '/' && input.value === '0') {
+            doNotDivideBy0();
+            return;
+        } else {
+            calculateWithOperators();
+        }
         switchOperators(button.value);
         updateOperatorsDisplay();
     });
 });
 
 equalsBtn.addEventListener('click', () => {
-    calculateWithEquals();
+    if(calcOperator === '/' && input.value === '0') {
+        doNotDivideBy0();
+        return;
+    } else {
+        calculateWithEquals();
+    }
     updateOperatorsDisplay();
 });
 
@@ -161,11 +178,17 @@ document.addEventListener('keypress', (e) => {
     }
 
     if (e.key.match(operatorPattern)) {
-        calculateWithOperators();
+        if(calcOperator === '/' && input.value === '0') {
+            doNotDivideBy0();
+            return;
+        } else {
+            calculateWithOperators();
+        }
         switchOperators(e.key);
         e.preventDefault();
     } else if (e.key === 'Enter') {
-        calculateWithEquals();
+        equalsBtn.click();
+        return;
     }
     
     // Only numbers, operators, and the decimal point will work.
@@ -243,34 +266,22 @@ function divide(...arg) {
 }
 
 function operate(operator) {
-    if(calcOperator === '/' && input.value.match(/^[0.]+$/)) {
-        /**
-         * The result.textContent is modified after the operate
-         * function is called. The Timeout waits for that modification
-         * to happen to be able to update the textContent.
-         */
-        setTimeout(() => {
-            result.textContent = result.textContent.slice(0,-1) + '????';    
-            calcOperator = '';
-        }, 0);
-    } else {
-        switch(operator) {
-            case '+':
-                calcOperator = '+';
-                calcResult = add(...calcValues);
-                break;
-            case '-':
-                calcOperator = '-';
-                calcResult = subtract(...calcValues);
-                break;
-            case '*':
-                calcOperator = '*';
-                calcResult = multiply(...calcValues);
-                break;
-            case '/':
-                calcOperator = '/';
-                calcResult = divide(...calcValues);
-                break;
-        }
+    switch(operator) {
+        case '+':
+            calcOperator = '+';
+            calcResult = add(...calcValues);
+            break;
+        case '-':
+            calcOperator = '-';
+            calcResult = subtract(...calcValues);
+            break;
+        case '*':
+            calcOperator = '*';
+            calcResult = multiply(...calcValues);
+            break;
+        case '/':
+            calcOperator = '/';
+            calcResult = divide(...calcValues);
+            break;
     }
 }
