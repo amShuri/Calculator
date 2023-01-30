@@ -49,7 +49,11 @@ function calculateWithEquals() {
   } else if (calcValues.length >= 1 && calcOperator !== "") {
     calcValues.push(+input.value.match(calcPattern));
     operate(calcOperator);
-    result.textContent = `${calcValues[0]} ${calcOperator} ${calcValues[1]} =`;
+    if (calcValues[1] < 0) {
+      result.textContent = `${calcValues[0]} ${calcOperator} (${calcValues[1]}) =`;
+    } else {
+      result.textContent = `${calcValues[0]} ${calcOperator} ${calcValues[1]} =`;
+    }
     input.value = calcResult;
     calcValues.splice(0, 2, calcResult);
     calcOperator = "";
